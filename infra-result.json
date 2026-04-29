@@ -1,0 +1,31 @@
+{
+    "infrastructure":  [
+                           {
+                               "type":  "mysql",
+                               "method":  "tcp",
+                               "reachable":  true,
+                               "testedAt":  "2026-04-29T15:44:58Z",
+                               "phase":  "mvp",
+                               "name":  "MySQL",
+                               "host":  "8.146.233.212",
+                               "port":  3306,
+                               "detail":  ""
+                           },
+                           {
+                               "type":  "redis",
+                               "method":  "tcp",
+                               "reachable":  true,
+                               "testedAt":  "2026-04-29T15:44:58Z",
+                               "phase":  "mvp",
+                               "name":  "Redis",
+                               "host":  "8.146.233.212",
+                               "port":  6379,
+                               "detail":  ""
+                           }
+                       ],
+    "_meta":  {
+                  "inputFile":  ".\\doc-analysis-infra.json",
+                  "generatedAt":  "2026-04-29T15:44:58Z",
+                  "generatedBy":  "detect-infra.ps1"
+              }
+}

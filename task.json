@@ -1,0 +1,799 @@
+{
+  "version": "4.0",
+  "project": "Permission Management System",
+  "totalTasks": 31,
+  "phases": [
+    "week-1-2: skeleton and infrastructure",
+    "week-3-4: authentication and RBAC backend",
+    "week-5-6: system CRUD and audit",
+    "week-7-8: frontend foundation and pages",
+    "week-9: end-to-end acceptance"
+  ],
+  "tasks": [
+    {
+      "id": "W01-J01",
+      "phase": "week-1-2: skeleton and infrastructure",
+      "domain": "java",
+      "title": "Create Spring Boot backend skeleton",
+      "description": "Create permission-system-backend with Maven, Spring Boot 3.x, JDK 17, main class com.example.permission.PermissionApplication, application.yml, application-dev.yml, actuator health, and dependencies for web, security, validation, mybatis-plus, mysql, redis, jwt, knife4j, and lombok.",
+      "dependencies": [],
+      "service": "permission-backend",
+      "acceptance": [
+        "permission-system-backend/pom.xml declares JDK 17 and required dependencies",
+        "PermissionApplication starts a Spring Boot app",
+        "application-dev.yml includes port 8080, MySQL, Redis, and JWT placeholders",
+        "Maven compile passes"
+      ],
+      "e2e_test": "mvn -f permission-system-backend/pom.xml -DskipTests compile",
+      "e2e_services": [],
+      "e2e_api_test": null,
+      "e2e_playwright": null,
+      "e2e_db_verify": null,
+      "status": "pending"
+    },
+    {
+      "id": "W01-J02",
+      "phase": "week-1-2: skeleton and infrastructure",
+      "domain": "java",
+      "title": "Implement common backend components",
+      "description": "Implement Result<T>, PageResult<T>, ErrorCode, BusinessException, UnauthorizedException, GlobalExceptionHandler, DateUtils, SecurityUtils, and TreeUtils under com.example.permission.common.",
+      "dependencies": [
+        "W01-J01"
+      ],
+      "service": "permission-backend",
+      "acceptance": [
+        "Result has code, message, and data",
+        "PageResult has list, total, pageNo, and pageSize",
+        "GlobalExceptionHandler covers validation, 401, 403, business, and system errors",
+        "Maven tests pass"
+      ],
+      "e2e_test": "mvn -f permission-system-backend/pom.xml test",
+      "e2e_services": [],
+      "e2e_api_test": null,
+      "e2e_playwright": null,
+      "e2e_db_verify": null,
+      "status": "pending"
+    },
+    {
+      "id": "W01-J03",
+      "phase": "week-1-2: skeleton and infrastructure",
+      "domain": "java",
+      "title": "Configure MyBatis Plus, Redis, Security, and OpenAPI",
+      "description": "Implement MybatisPlusConfig, RedisConfig, SecurityConfig, WebMvcConfig, and OpenApiConfig. Allow /auth/login, /auth/captcha, /auth/refresh, /actuator/health, /v3/api-docs/**, and /swagger-ui/**. Require authentication for admin APIs.",
+      "dependencies": [
+        "W01-J02"
+      ],
+      "service": "permission-backend",
+      "acceptance": [
+        "Configuration classes load in Spring context",
+        "SecurityFilterChain uses Spring Security 6 style APIs",
+        "RedisTemplate uses String keys and JSON values",
+        "Maven tests pass"
+      ],
+      "e2e_test": "mvn -f permission-system-backend/pom.xml test",
+      "e2e_services": [],
+      "e2e_api_test": null,
+      "e2e_playwright": null,
+      "e2e_db_verify": null,
+      "status": "pending"
+    },
+    {
+      "id": "W01-J04",
+      "phase": "week-1-2: skeleton and infrastructure",
+      "domain": "java",
+      "title": "Write MySQL init DDL and seed permissions",
+      "description": "Create src/main/resources/db/init.sql with sys_user, sys_role, sys_user_role, sys_menu, sys_role_menu, sys_dept, sys_role_data_scope, sys_operation_log, and sys_login_log. Seed admin, system_manager, audit_manager, normal_user, menu nodes, and button permission codes.",
+      "dependencies": [
+        "W01-J03"
+      ],
+      "service": "permission-backend",
+      "acceptance": [
+        "Nine sys_* tables exist in init.sql",
+        "Initial roles and core permission codes are seeded",
+        "Admin password seed is documented as BCrypt ciphertext",
+        "Maven compile passes"
+      ],
+      "e2e_test": "mvn -f permission-system-backend/pom.xml -DskipTests compile",
+      "e2e_services": [],
+      "e2e_api_test": null,
+      "e2e_playwright": null,
+      "e2e_db_verify": "SELECT COUNT(*) AS table_count FROM information_schema.tables WHERE table_schema = 'permission_system' AND table_name LIKE 'sys_%'",
+      "status": "pending"
+    },
+    {
+      "id": "W01-F01",
+      "phase": "week-1-2: skeleton and infrastructure",
+      "domain": "frontend",
+      "title": "Create Vue 3 frontend skeleton",
+      "description": "Create permission-system-web with Vite, Vue 3, TypeScript, Element Plus, Vue Router, Pinia, Axios, SCSS, and @playwright/test. Configure Vite port 5173 and /api proxy to http://localhost:8080.",
+      "dependencies": [],
+      "service": "permission-system-web",
+      "acceptance": [
+        "package.json includes dev, build, and test:e2e scripts",
+        "Vite uses port 5173",
+        "Element Plus, Pinia, and Router are registered",
+        "Frontend build passes"
+      ],
+      "e2e_test": "cd permission-system-web && npm run build",
+      "e2e_services": [],
+      "e2e_api_test": null,
+      "e2e_playwright": null,
+      "e2e_db_verify": null,
+      "status": "pending"
+    },
+    {
+      "id": "W02-J01",
+      "phase": "week-3-4: authentication and RBAC backend",
+      "domain": "java",
+      "title": "Implement system entities, mappers, DTOs, and VOs",
+      "description": "Implement UserDO, RoleDO, UserRoleDO, MenuDO, RoleMenuDO, DeptDO, RoleDataScopeDO, OperationLogDO, LoginLogDO, mapper interfaces, create/update/page request DTOs, and response VOs for the system module.",
+      "dependencies": [
+        "W01-J04"
+      ],
+      "service": "permission-backend",
+      "acceptance": [
+        "Entity fields match init.sql",
+        "Mapper, DTO, and VO classes compile",
+        "Page request DTOs include pageNo and pageSize",
+        "Maven tests pass"
+      ],
+      "e2e_test": "mvn -f permission-system-backend/pom.xml test",
+      "e2e_services": [],
+      "e2e_api_test": null,
+      "e2e_playwright": null,
+      "e2e_db_verify": null,
+      "status": "pending"
+    },
+    {
+      "id": "W02-J02",
+      "phase": "week-3-4: authentication and RBAC backend",
+      "domain": "java",
+      "title": "Implement JWT session and permission services",
+      "description": "Implement LoginUser, JwtTokenService, JwtAuthenticationFilter, SecurityUserDetailsService, and PermissionService. Use Redis keys login:token:{accessToken}, login:refresh:{refreshToken}, permission:user:{userId}, and online:user:{userId}. PermissionService.has supports superAdmin and *:*:*.",
+      "dependencies": [
+        "W01-J03",
+        "W01-J04"
+      ],
+      "service": "permission-backend",
+      "acceptance": [
+        "Bearer token builds Spring Security authentication",
+        "PermissionService handles super admin and normal permission sets",
+        "Redis key names match architecture.md",
+        "Maven tests pass"
+      ],
+      "e2e_test": "mvn -f permission-system-backend/pom.xml test",
+      "e2e_services": [],
+      "e2e_api_test": null,
+      "e2e_playwright": null,
+      "e2e_db_verify": null,
+      "status": "pending"
+    },
+    {
+      "id": "W02-J03",
+      "phase": "week-3-4: authentication and RBAC backend",
+      "domain": "java",
+      "title": "Implement AuthController APIs",
+      "description": "Implement AuthController, AuthService, and CaptchaService for POST /auth/login, POST /auth/logout, POST /auth/refresh, GET /auth/me, and GET /auth/captcha. Login validates username, password, captchaKey, captchaCode, writes sys_login_log, and returns accessToken, refreshToken, and expiresIn.",
+      "dependencies": [
+        "W02-J01",
+        "W02-J02"
+      ],
+      "service": "permission-backend",
+      "acceptance": [
+        "Five auth APIs return Result structures",
+        "Login failure uses a generic account or password error",
+        "/auth/me returns user, roles, menus, and permissions",
+        "Actuator health returns 200 after service start"
+      ],
+      "e2e_test": "mvn -f permission-system-backend/pom.xml test",
+      "e2e_services": [
+        "permission-backend"
+      ],
+      "e2e_api_test": "Invoke-RestMethod -Uri 'http://localhost:8080/actuator/health' -Method GET",
+      "e2e_playwright": null,
+      "e2e_db_verify": "SELECT COUNT(*) AS cnt FROM sys_login_log",
+      "status": "pending"
+    },
+    {
+      "id": "W02-J04",
+      "phase": "week-3-4: authentication and RBAC backend",
+      "domain": "java",
+      "title": "Implement data scope annotation and aspect",
+      "description": "Implement DataScope, DataScopeAspect, DataScopeContext, DataScopeType, and DataScopeService. Support ALL, DEPT_ONLY, DEPT_AND_CHILD, SELF, and CUSTOM_DEPT, with max-scope or custom-department union logic for multi-role users.",
+      "dependencies": [
+        "W02-J01",
+        "W02-J02"
+      ],
+      "service": "permission-backend",
+      "acceptance": [
+        "DataScope exposes deptAlias and userAlias",
+        "DataScopeService computes all five scope types",
+        "DataScopeContext uses ThreadLocal and clears in finally",
+        "Maven tests pass"
+      ],
+      "e2e_test": "mvn -f permission-system-backend/pom.xml test",
+      "e2e_services": [],
+      "e2e_api_test": null,
+      "e2e_playwright": null,
+      "e2e_db_verify": null,
+      "status": "pending"
+    },
+    {
+      "id": "W02-J05",
+      "phase": "week-3-4: authentication and RBAC backend",
+      "domain": "java",
+      "title": "Implement operation log annotation and audit service",
+      "description": "Implement OperationLog, OperationLogAspect, and LogService. Persist module, operation, requestMethod, requestUri, requestParams, responseResult, userId, username, ip, userAgent, status, errorMessage, costTime, and createTime to sys_operation_log. Mask password fields.",
+      "dependencies": [
+        "W02-J01",
+        "W02-J02"
+      ],
+      "service": "permission-backend",
+      "acceptance": [
+        "OperationLog can annotate controller methods",
+        "Success and exception cases create audit records",
+        "password is not stored in requestParams",
+        "Maven tests pass"
+      ],
+      "e2e_test": "mvn -f permission-system-backend/pom.xml test",
+      "e2e_services": [],
+      "e2e_api_test": null,
+      "e2e_playwright": null,
+      "e2e_db_verify": "SELECT COUNT(*) AS cnt FROM sys_operation_log",
+      "status": "pending"
+    },
+    {
+      "id": "W03-J01",
+      "phase": "week-5-6: system CRUD and audit",
+      "domain": "java",
+      "title": "Implement user CRUD APIs",
+      "description": "Implement UserController, UserService, and UserServiceImpl for GET /system/users, GET /system/users/{id}, POST /system/users, PUT /system/users/{id}, and DELETE /system/users. Support username, mobile, status, and deptId filters. Add system:user:list/query/add/edit/delete permission checks.",
+      "dependencies": [
+        "W02-J03",
+        "W02-J04",
+        "W02-J05"
+      ],
+      "service": "permission-backend",
+      "acceptance": [
+        "Five user CRUD APIs exist with @PreAuthorize",
+        "Page query applies @DataScope",
+        "New user password is BCrypt encoded",
+        "Create, update, and delete write OperationLog records"
+      ],
+      "e2e_test": "mvn -f permission-system-backend/pom.xml test",
+      "e2e_services": [
+        "permission-backend"
+      ],
+      "e2e_api_test": "Invoke-RestMethod -Uri 'http://localhost:8080/system/users?pageNo=1&pageSize=10' -Method GET",
+      "e2e_playwright": null,
+      "e2e_db_verify": "SELECT COUNT(*) AS cnt FROM sys_user WHERE deleted = 0",
+      "status": "pending"
+    },
+    {
+      "id": "W03-J02",
+      "phase": "week-5-6: system CRUD and audit",
+      "domain": "java",
+      "title": "Implement user advanced action APIs",
+      "description": "Add PUT /system/users/{id}/status, PUT /system/users/{id}/password, PUT /system/users/{id}/roles, and export service logic. Disable user clears login and permission cache. Assign role updates sys_user_role and clears permission:user:{userId}.",
+      "dependencies": [
+        "W03-J01"
+      ],
+      "service": "permission-backend",
+      "acceptance": [
+        "Status, reset password, and assign role APIs exist with permission codes",
+        "Role assignment is transactional",
+        "Disable and role assignment clear Redis permission caches",
+        "Maven tests pass"
+      ],
+      "e2e_test": "mvn -f permission-system-backend/pom.xml test",
+      "e2e_services": [
+        "permission-backend"
+      ],
+      "e2e_api_test": "Invoke-RestMethod -Uri 'http://localhost:8080/actuator/health' -Method GET",
+      "e2e_playwright": null,
+      "e2e_db_verify": "SELECT COUNT(*) AS cnt FROM sys_user_role",
+      "status": "pending"
+    },
+    {
+      "id": "W03-J03",
+      "phase": "week-5-6: system CRUD and audit",
+      "domain": "java",
+      "title": "Implement role CRUD APIs",
+      "description": "Implement RoleController, RoleService, and RoleServiceImpl for GET /system/roles, GET /system/roles/{id}, POST /system/roles, PUT /system/roles/{id}, DELETE /system/roles, and PUT /system/roles/{id}/status. Validate unique roleCode and prevent deleting roles bound to users.",
+      "dependencies": [
+        "W02-J03",
+        "W02-J05"
+      ],
+      "service": "permission-backend",
+      "acceptance": [
+        "Role CRUD and status APIs exist with permission codes",
+        "Delete checks sys_user_role references",
+        "roleCode uniqueness is enforced",
+        "Role changes write OperationLog records"
+      ],
+      "e2e_test": "mvn -f permission-system-backend/pom.xml test",
+      "e2e_services": [
+        "permission-backend"
+      ],
+      "e2e_api_test": "Invoke-RestMethod -Uri 'http://localhost:8080/system/roles?pageNo=1&pageSize=10' -Method GET",
+      "e2e_playwright": null,
+      "e2e_db_verify": "SELECT COUNT(*) AS cnt FROM sys_role WHERE deleted = 0",
+      "status": "pending"
+    },
+    {
+      "id": "W03-J04",
+      "phase": "week-5-6: system CRUD and audit",
+      "domain": "java",
+      "title": "Implement role permission and data-scope APIs",
+      "description": "Add GET /system/roles/{id}/permissions, PUT /system/roles/{id}/permissions, and PUT /system/roles/{id}/data-scope. Maintain sys_role_menu and sys_role_data_scope. Clear permission:user:{userId} for all users bound to the changed role.",
+      "dependencies": [
+        "W03-J03",
+        "W02-J04"
+      ],
+      "service": "permission-backend",
+      "acceptance": [
+        "Role permission APIs save and read menu and button IDs",
+        "Role data scope supports five scope types",
+        "Permission changes clear affected user permission caches",
+        "Maven tests pass"
+      ],
+      "e2e_test": "mvn -f permission-system-backend/pom.xml test",
+      "e2e_services": [
+        "permission-backend"
+      ],
+      "e2e_api_test": "Invoke-RestMethod -Uri 'http://localhost:8080/actuator/health' -Method GET",
+      "e2e_playwright": null,
+      "e2e_db_verify": "SELECT COUNT(*) AS cnt FROM sys_role_menu",
+      "status": "pending"
+    },
+    {
+      "id": "W03-J05",
+      "phase": "week-5-6: system CRUD and audit",
+      "domain": "java",
+      "title": "Implement menu and button permission APIs",
+      "description": "Implement MenuController, MenuService, and MenuServiceImpl for GET /system/menus/tree, GET /system/menus/{id}, POST /system/menus, PUT /system/menus/{id}, and DELETE /system/menus. Support CATALOG, MENU, and BUTTON. Validate unique permissionCode for BUTTON nodes.",
+      "dependencies": [
+        "W02-J03",
+        "W02-J05"
+      ],
+      "service": "permission-backend",
+      "acceptance": [
+        "Menu tree is sorted by parentId and sort",
+        "CATALOG, MENU, and BUTTON validation follows the requirements",
+        "Delete checks child nodes and sys_role_menu references",
+        "Maven tests pass"
+      ],
+      "e2e_test": "mvn -f permission-system-backend/pom.xml test",
+      "e2e_services": [
+        "permission-backend"
+      ],
+      "e2e_api_test": "Invoke-RestMethod -Uri 'http://localhost:8080/system/menus/tree' -Method GET",
+      "e2e_playwright": null,
+      "e2e_db_verify": "SELECT COUNT(*) AS cnt FROM sys_menu WHERE deleted = 0",
+      "status": "pending"
+    },
+    {
+      "id": "W03-J06",
+      "phase": "week-5-6: system CRUD and audit",
+      "domain": "java",
+      "title": "Implement department APIs",
+      "description": "Implement DeptController, DeptService, and DeptServiceImpl for GET /system/depts/tree, GET /system/depts/{id}, POST /system/depts, PUT /system/depts/{id}, and DELETE /system/depts. Use tree structure and block delete when child departments or users exist.",
+      "dependencies": [
+        "W02-J03",
+        "W02-J04",
+        "W02-J05"
+      ],
+      "service": "permission-backend",
+      "acceptance": [
+        "Department tree is sorted by parentId and sort",
+        "Delete checks child departments and sys_user references",
+        "Disabled departments cannot be selected for new users",
+        "Maven tests pass"
+      ],
+      "e2e_test": "mvn -f permission-system-backend/pom.xml test",
+      "e2e_services": [
+        "permission-backend"
+      ],
+      "e2e_api_test": "Invoke-RestMethod -Uri 'http://localhost:8080/system/depts/tree' -Method GET",
+      "e2e_playwright": null,
+      "e2e_db_verify": "SELECT COUNT(*) AS cnt FROM sys_dept WHERE deleted = 0",
+      "status": "pending"
+    },
+    {
+      "id": "W03-J07",
+      "phase": "week-5-6: system CRUD and audit",
+      "domain": "java",
+      "title": "Implement login and operation log APIs",
+      "description": "Implement LogController for GET /system/logs/login, GET /system/logs/operation, DELETE /system/logs/login, and DELETE /system/logs/operation. Support filters for username, status, module, operation, and time ranges. Apply @DataScope where appropriate.",
+      "dependencies": [
+        "W02-J05",
+        "W03-J01",
+        "W03-J03"
+      ],
+      "service": "permission-backend",
+      "acceptance": [
+        "Login and operation logs can be queried with pagination",
+        "Cleanup APIs have permission codes and audit logging",
+        "Filters match backend DTO fields",
+        "Maven tests pass"
+      ],
+      "e2e_test": "mvn -f permission-system-backend/pom.xml test",
+      "e2e_services": [
+        "permission-backend"
+      ],
+      "e2e_api_test": "Invoke-RestMethod -Uri 'http://localhost:8080/system/logs/login?pageNo=1&pageSize=10' -Method GET",
+      "e2e_playwright": null,
+      "e2e_db_verify": "SELECT COUNT(*) AS cnt FROM sys_login_log",
+      "status": "pending"
+    },
+    {
+      "id": "W03-J08",
+      "phase": "week-5-6: system CRUD and audit",
+      "domain": "java",
+      "title": "Add backend core unit tests",
+      "description": "Add tests for AuthService, PermissionService, UserService, RoleService, MenuService, DeptService, DataScopeService, and OperationLogAspect. Cover login success/failure, 403, super admin, permission cache invalidation, data scope, and association checks.",
+      "dependencies": [
+        "W03-J02",
+        "W03-J04",
+        "W03-J05",
+        "W03-J06",
+        "W03-J07"
+      ],
+      "service": "permission-backend",
+      "acceptance": [
+        "Core service tests cover happy and error paths",
+        "PermissionService.has covers *:*:* and normal permissions",
+        "DataScopeService covers all five data scopes",
+        "Maven tests pass"
+      ],
+      "e2e_test": "mvn -f permission-system-backend/pom.xml test",
+      "e2e_services": [],
+      "e2e_api_test": null,
+      "e2e_playwright": null,
+      "e2e_db_verify": null,
+      "status": "pending"
+    },
+    {
+      "id": "W04-F01",
+      "phase": "week-7-8: frontend foundation and pages",
+      "domain": "frontend",
+      "title": "Implement frontend request, auth, and permission state",
+      "description": "Implement utils/request.ts, utils/auth.ts, utils/storage.ts, api/auth.ts, store/modules/user.ts, and store/modules/permission.ts. Axios adds Bearer token, handles 401 refresh and 403 messages. Permission state includes menus, permissions, roles, and dynamicRoutesLoaded.",
+      "dependencies": [
+        "W01-F01",
+        "W02-J03"
+      ],
+      "service": "permission-system-web",
+      "acceptance": [
+        "Axios attaches Authorization",
+        "401 attempts refresh token then redirects to login on failure",
+        "Pinia user and permission states are typed",
+        "Frontend build passes"
+      ],
+      "e2e_test": "cd permission-system-web && npm run build",
+      "e2e_services": [],
+      "e2e_api_test": null,
+      "e2e_playwright": null,
+      "e2e_db_verify": null,
+      "status": "pending"
+    },
+    {
+      "id": "W04-F02",
+      "phase": "week-7-8: frontend foundation and pages",
+      "domain": "frontend",
+      "title": "Implement dynamic routes and route guard",
+      "description": "Implement router/routes.ts, router/permission.ts, and menu-to-route conversion. Convert backend menu nodes to Vue Router records. Guard redirects unauthenticated users to /login and loads /auth/me when dynamicRoutesLoaded is false.",
+      "dependencies": [
+        "W04-F01"
+      ],
+      "service": "permission-system-web",
+      "acceptance": [
+        "Dynamic routes reload after page refresh",
+        "Unauthenticated admin routes redirect to login",
+        "Route meta includes title and permission",
+        "Frontend build passes"
+      ],
+      "e2e_test": "cd permission-system-web && npm run build",
+      "e2e_services": [],
+      "e2e_api_test": null,
+      "e2e_playwright": null,
+      "e2e_db_verify": null,
+      "status": "pending"
+    },
+    {
+      "id": "W04-F03",
+      "phase": "week-7-8: frontend foundation and pages",
+      "domain": "frontend",
+      "title": "Implement admin layout and navigation",
+      "description": "Implement BasicLayout.vue, Sidebar.vue, Header.vue, TabsView.vue, and dashboard view. Sidebar renders menus from permission store. Header shows current user and logout. Use dense, work-focused admin styling.",
+      "dependencies": [
+        "W04-F02"
+      ],
+      "service": "permission-system-web",
+      "acceptance": [
+        "Main layout renders sidebar, header, tabs, and content",
+        "Logout calls POST /auth/logout and clears state",
+        "Sidebar uses dynamic menus",
+        "Frontend build passes"
+      ],
+      "e2e_test": "cd permission-system-web && npm run build",
+      "e2e_services": [],
+      "e2e_api_test": null,
+      "e2e_playwright": null,
+      "e2e_db_verify": null,
+      "status": "pending"
+    },
+    {
+      "id": "W04-F04",
+      "phase": "week-7-8: frontend foundation and pages",
+      "domain": "frontend",
+      "title": "Implement frontend button permission directive and components",
+      "description": "Implement directives/permission.ts, PermissionGate, PermissionButton, and utils/permission.ts. v-permission and permission components share permissionStore.hasPermission. PermissionButton wraps Element Plus button props and icon support.",
+      "dependencies": [
+        "W04-F01",
+        "W04-F02"
+      ],
+      "service": "permission-system-web",
+      "acceptance": [
+        "v-permission, PermissionGate, and PermissionButton use one permission check",
+        "Unauthorized buttons are hidden or not rendered",
+        "*:*:* allows all buttons",
+        "Frontend build passes"
+      ],
+      "e2e_test": "cd permission-system-web && npm run build",
+      "e2e_services": [],
+      "e2e_api_test": null,
+      "e2e_playwright": null,
+      "e2e_db_verify": null,
+      "status": "pending"
+    },
+    {
+      "id": "W05-F01",
+      "phase": "week-7-8: frontend foundation and pages",
+      "domain": "frontend",
+      "title": "Implement login page and auth flow",
+      "description": "Implement views/login/index.vue. Form fields: username, password, captchaKey, captchaCode. Call GET /auth/captcha, POST /auth/login, save tokens, call GET /auth/me, load menus and permissions, and redirect to dashboard.",
+      "dependencies": [
+        "W04-F03",
+        "W04-F04",
+        "W02-J03"
+      ],
+      "service": "permission-system-web",
+      "acceptance": [
+        "Login form validates username, password, and captcha",
+        "Successful login saves accessToken and refreshToken",
+        "Successful login loads /auth/me and dynamic routes",
+        "Frontend build passes"
+      ],
+      "e2e_test": "cd permission-system-web && npm run build",
+      "e2e_services": [
+        "permission-backend",
+        "permission-system-web"
+      ],
+      "e2e_api_test": null,
+      "e2e_playwright": "cd permission-system-web && npx playwright test tests/e2e/login.spec.ts --reporter=list",
+      "e2e_db_verify": null,
+      "status": "pending"
+    },
+    {
+      "id": "W05-F02",
+      "phase": "week-7-8: frontend foundation and pages",
+      "domain": "frontend",
+      "title": "Implement user management page",
+      "description": "Implement views/system/user/index.vue, api/user.ts, DeptTreeSelect, and CrudTable. Include filters for username, mobile, status, and dept; department tree; user table; create/edit dialog; reset password; assign role; export. Button permissions use system:user:* codes.",
+      "dependencies": [
+        "W05-F01",
+        "W03-J02",
+        "W03-J06"
+      ],
+      "service": "permission-system-web",
+      "acceptance": [
+        "User page supports paginated query and department filter",
+        "Action buttons are permission controlled",
+        "Create and edit forms align with backend DTOs",
+        "Frontend build passes"
+      ],
+      "e2e_test": "cd permission-system-web && npm run build",
+      "e2e_services": [
+        "permission-backend",
+        "permission-system-web"
+      ],
+      "e2e_api_test": null,
+      "e2e_playwright": "cd permission-system-web && npx playwright test tests/e2e/user.spec.ts --reporter=list",
+      "e2e_db_verify": null,
+      "status": "pending"
+    },
+    {
+      "id": "W05-F03",
+      "phase": "week-7-8: frontend foundation and pages",
+      "domain": "frontend",
+      "title": "Implement role management page",
+      "description": "Implement views/system/role/index.vue, api/role.ts, RolePermissionTree, and DataScopeEditor. Include role query/list, create/edit dialog, permission assignment dialog, and data scope dialog. Permission tree displays CATALOG, MENU, and BUTTON nodes.",
+      "dependencies": [
+        "W05-F01",
+        "W03-J04",
+        "W03-J05",
+        "W03-J06"
+      ],
+      "service": "permission-system-web",
+      "acceptance": [
+        "Role CRUD form and API wrappers are complete",
+        "Permission tree saves menu and button IDs",
+        "DataScopeEditor supports five scope types",
+        "Frontend build passes"
+      ],
+      "e2e_test": "cd permission-system-web && npm run build",
+      "e2e_services": [
+        "permission-backend",
+        "permission-system-web"
+      ],
+      "e2e_api_test": null,
+      "e2e_playwright": "cd permission-system-web && npx playwright test tests/e2e/role.spec.ts --reporter=list",
+      "e2e_db_verify": null,
+      "status": "pending"
+    },
+    {
+      "id": "W05-F04",
+      "phase": "week-7-8: frontend foundation and pages",
+      "domain": "frontend",
+      "title": "Implement menu management page",
+      "description": "Implement views/system/menu/index.vue and api/menu.ts. Use a tree table. Support add catalog, add menu, add button, edit node, and delete node. Dynamic fields vary by CATALOG, MENU, and BUTTON type.",
+      "dependencies": [
+        "W05-F01",
+        "W03-J05"
+      ],
+      "service": "permission-system-web",
+      "acceptance": [
+        "Tree table displays CATALOG, MENU, and BUTTON",
+        "Form fields switch by menu type",
+        "Delete confirms and calls DELETE /system/menus/{id}",
+        "Frontend build passes"
+      ],
+      "e2e_test": "cd permission-system-web && npm run build",
+      "e2e_services": [
+        "permission-backend",
+        "permission-system-web"
+      ],
+      "e2e_api_test": null,
+      "e2e_playwright": "cd permission-system-web && npx playwright test tests/e2e/menu.spec.ts --reporter=list",
+      "e2e_db_verify": null,
+      "status": "pending"
+    },
+    {
+      "id": "W05-F05",
+      "phase": "week-7-8: frontend foundation and pages",
+      "domain": "frontend",
+      "title": "Implement department management page",
+      "description": "Implement views/system/dept/index.vue and api/dept.ts. Use a tree table for departments. Support create, edit, delete, enable, disable, sort update, and leader fields. Show backend error when child departments or users block delete.",
+      "dependencies": [
+        "W05-F01",
+        "W03-J06"
+      ],
+      "service": "permission-system-web",
+      "acceptance": [
+        "Department table displays parentId hierarchy",
+        "Form includes name, leader, phone, email, sort, and status",
+        "Delete and disable operations have confirmation",
+        "Frontend build passes"
+      ],
+      "e2e_test": "cd permission-system-web && npm run build",
+      "e2e_services": [
+        "permission-backend",
+        "permission-system-web"
+      ],
+      "e2e_api_test": null,
+      "e2e_playwright": "cd permission-system-web && npx playwright test tests/e2e/dept.spec.ts --reporter=list",
+      "e2e_db_verify": null,
+      "status": "pending"
+    },
+    {
+      "id": "W05-F06",
+      "phase": "week-7-8: frontend foundation and pages",
+      "domain": "frontend",
+      "title": "Implement log management pages",
+      "description": "Implement views/system/log/login.vue, views/system/log/operation.vue, and api/log.ts. Login log shows username, ip, userAgent, status, message, and loginTime. Operation log shows module, operation, method, URI, username, status, costTime, and createTime.",
+      "dependencies": [
+        "W05-F01",
+        "W03-J07"
+      ],
+      "service": "permission-system-web",
+      "acceptance": [
+        "Login and operation log pages support pagination",
+        "Filters align with backend query DTOs",
+        "Cleanup buttons use system:log permissions",
+        "Frontend build passes"
+      ],
+      "e2e_test": "cd permission-system-web && npm run build",
+      "e2e_services": [
+        "permission-backend",
+        "permission-system-web"
+      ],
+      "e2e_api_test": null,
+      "e2e_playwright": "cd permission-system-web && npx playwright test tests/e2e/log.spec.ts --reporter=list",
+      "e2e_db_verify": null,
+      "status": "pending"
+    },
+    {
+      "id": "W06-E01",
+      "phase": "week-9: end-to-end acceptance",
+      "domain": "e2e",
+      "title": "Write backend RBAC API E2E tests",
+      "description": "Create tests/e2e/test_rbac_api.ps1. Flow: get captcha, admin login, call /auth/me, create test role, assign menu/button permissions, create test user, assign role, login as test user, verify allowed API returns 200 and forbidden API returns 403.",
+      "dependencies": [
+        "W03-J08"
+      ],
+      "service": "permission-backend",
+      "acceptance": [
+        "test_rbac_api.ps1 is executable",
+        "Test covers login, /auth/me, role grants, user role assignment, and 403",
+        "Test data uses test_ prefix and avoids destructive cleanup",
+        "API E2E passes"
+      ],
+      "e2e_test": "mvn -f permission-system-backend/pom.xml test",
+      "e2e_services": [
+        "permission-backend"
+      ],
+      "e2e_api_test": "powershell -ExecutionPolicy Bypass -File tests/e2e/test_rbac_api.ps1",
+      "e2e_playwright": null,
+      "e2e_db_verify": "SELECT COUNT(*) AS cnt FROM sys_operation_log",
+      "status": "pending"
+    },
+    {
+      "id": "W06-E02",
+      "phase": "week-9: end-to-end acceptance",
+      "domain": "e2e",
+      "title": "Write frontend permission Playwright tests",
+      "description": "Create permission-system-web/tests/e2e/auth-permission.spec.ts. Flow: visit /login, login as admin, verify system menu, simulate or login limited user, verify unauthorized buttons are hidden, refresh page, and verify dynamic routes and permissions recover.",
+      "dependencies": [
+        "W05-F02",
+        "W05-F03",
+        "W05-F04",
+        "W05-F05",
+        "W05-F06"
+      ],
+      "service": "permission-system-web",
+      "acceptance": [
+        "Playwright test covers login, menus, buttons, and refresh recovery",
+        "baseURL is http://localhost:5173",
+        "Failures produce screenshots or test artifacts",
+        "Playwright test passes"
+      ],
+      "e2e_test": "cd permission-system-web && npm run build",
+      "e2e_services": [
+        "permission-backend",
+        "permission-system-web"
+      ],
+      "e2e_api_test": null,
+      "e2e_playwright": "cd permission-system-web && npx playwright test tests/e2e/auth-permission.spec.ts --reporter=list",
+      "e2e_db_verify": null,
+      "status": "pending"
+    },
+    {
+      "id": "W06-E03",
+      "phase": "week-9: end-to-end acceptance",
+      "domain": "e2e",
+      "title": "Complete full acceptance E2E suite",
+      "description": "Create tests/e2e/test_acceptance.ps1 and permission-system-web/tests/e2e/full.spec.ts. Cover login, logout, refresh token, role-specific menus, button hiding, direct forbidden API returns 403, permission cache refresh after role change, data scope filtering, CRUD pages, audit logs, and route recovery after refresh.",
+      "dependencies": [
+        "W06-E01",
+        "W06-E02"
+      ],
+      "service": "permission-system-web",
+      "acceptance": [
+        "Full API script and Playwright test exist",
+        "All acceptance criteria have assertions or automated checks",
+        "Failure logs identify the API or page",
+        "Backend tests, frontend build, API E2E, and Playwright pass"
+      ],
+      "e2e_test": "mvn -f permission-system-backend/pom.xml test",
+      "e2e_services": [
+        "permission-backend",
+        "permission-system-web"
+      ],
+      "e2e_api_test": "powershell -ExecutionPolicy Bypass -File tests/e2e/test_acceptance.ps1",
+      "e2e_playwright": "cd permission-system-web && npx playwright test tests/e2e/full.spec.ts --reporter=list",
+      "e2e_db_verify": "SELECT COUNT(*) AS cnt FROM sys_operation_log",
+      "status": "pending"
+    }
+  ]
+}

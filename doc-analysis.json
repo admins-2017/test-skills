@@ -1,0 +1,133 @@
+{
+  "_meta": {
+    "generatedAt": "2026-04-29T15:10:00Z",
+    "generatedBy": "agent-harness-generator v4",
+    "source": "permission requirements design document"
+  },
+  "project": {
+    "name": "Permission Management System",
+    "description": "Enterprise RBAC admin system with users, roles, menus, buttons, APIs, data scope, login sessions, and audit logs."
+  },
+  "techStack": {
+    "backend": [
+      "JDK 17",
+      "Spring Boot 3.x",
+      "Spring Security 6.x",
+      "Maven",
+      "MyBatis Plus",
+      "MySQL 8.x",
+      "Redis 6.x/7.x",
+      "JWT",
+      "Hibernate Validator",
+      "Knife4j / Swagger",
+      "Logback"
+    ],
+    "frontend": [
+      "Vue 3",
+      "TypeScript",
+      "Vite",
+      "Vue Router",
+      "Pinia",
+      "Element Plus",
+      "Axios",
+      "SCSS"
+    ]
+  },
+  "services": [
+    {
+      "name": "permission-backend",
+      "type": "java",
+      "dir": "permission-system-backend",
+      "port": 8080,
+      "healthPath": "/actuator/health"
+    },
+    {
+      "name": "permission-system-web",
+      "type": "frontend",
+      "dir": "permission-system-web",
+      "port": 5173,
+      "healthPath": "/"
+    }
+  ],
+  "infrastructure": [
+    {
+      "name": "MySQL",
+      "type": "mysql",
+      "host": "8.146.233.212",
+      "port": 3306,
+      "phase": "mvp",
+      "database": "permission_system",
+      "username": "ytzy",
+      "password": "CHANGE_ME"
+    },
+    {
+      "name": "Redis",
+      "type": "redis",
+      "host": "8.146.233.212",
+      "port": 6379,
+      "phase": "mvp",
+      "database": 3
+    }
+  ],
+  "databaseTables": [
+    "sys_user",
+    "sys_role",
+    "sys_user_role",
+    "sys_menu",
+    "sys_role_menu",
+    "sys_dept",
+    "sys_role_data_scope",
+    "sys_operation_log",
+    "sys_login_log"
+  ],
+  "apiGroups": {
+    "auth": [
+      "POST /auth/login",
+      "POST /auth/logout",
+      "POST /auth/refresh",
+      "GET /auth/me",
+      "GET /auth/captcha"
+    ],
+    "user": [
+      "GET /system/users",
+      "GET /system/users/{id}",
+      "POST /system/users",
+      "PUT /system/users/{id}",
+      "DELETE /system/users/{id}",
+      "PUT /system/users/{id}/status",
+      "PUT /system/users/{id}/password",
+      "PUT /system/users/{id}/roles"
+    ],
+    "role": [
+      "GET /system/roles",
+      "GET /system/roles/{id}",
+      "POST /system/roles",
+      "PUT /system/roles/{id}",
+      "DELETE /system/roles/{id}",
+      "PUT /system/roles/{id}/status",
+      "GET /system/roles/{id}/permissions",
+      "PUT /system/roles/{id}/permissions",
+      "PUT /system/roles/{id}/data-scope"
+    ],
+    "menu": [
+      "GET /system/menus/tree",
+      "GET /system/menus/{id}",
+      "POST /system/menus",
+      "PUT /system/menus/{id}",
+      "DELETE /system/menus/{id}"
+    ],
+    "dept": [
+      "GET /system/depts/tree",
+      "GET /system/depts/{id}",
+      "POST /system/depts",
+      "PUT /system/depts/{id}",
+      "DELETE /system/depts/{id}"
+    ],
+    "log": [
+      "GET /system/logs/login",
+      "GET /system/logs/operation",
+      "DELETE /system/logs/login",
+      "DELETE /system/logs/operation"
+    ]
+  }
+}

@@ -1,0 +1,20 @@
+[
+  {
+    "name": "MySQL",
+    "type": "mysql",
+    "host": "8.146.233.212",
+    "port": 3306,
+    "phase": "mvp",
+    "database": "permission_system",
+    "username": "ytzy",
+    "password": "CHANGE_ME"
+  },
+  {
+    "name": "Redis",
+    "type": "redis",
+    "host": "8.146.233.212",
+    "port": 6379,
+    "phase": "mvp",
+    "database": 3
+  }
+]

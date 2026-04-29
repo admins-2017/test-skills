@@ -1,0 +1,97 @@
+{
+    "mirrors":  {
+                    "maven":  {
+                                  "hasAliyunMirror":  false,
+                                  "settingsXml":  null,
+                                  "_source":  "auto"
+                              },
+                    "pip":  {
+                                "currentIndex":  null,
+                                "suggested":  "https://mirrors.aliyun.com/pypi/simple/",
+                                "needsMirror":  true,
+                                "_source":  "auto"
+                            },
+                    "npm":  {
+                                "suggested":  null,
+                                "currentRegistry":  "https://registry.npmmirror.com",
+                                "needsMirror":  false,
+                                "_source":  "auto"
+                            }
+                },
+    "tools":  {
+                  "javac":  {
+                                "path":  "C:\\Program Files\\Common Files\\Oracle\\Java\\javapath\\javac.exe",
+                                "name":  "javac",
+                                "version":  "17.0.12",
+                                "detected":  true
+                            },
+                  "java":  {
+                               "path":  "C:\\Program Files\\Common Files\\Oracle\\Java\\javapath\\java.exe",
+                               "name":  "java",
+                               "version":  "17.0.12",
+                               "detected":  true
+                           },
+                  "node":  {
+                               "path":  "C:\\tools\\nodejs\\node.exe",
+                               "name":  "node",
+                               "version":  "24.12.0",
+                               "detected":  true
+                           },
+                  "ffmpeg":  {
+                                 "path":  null,
+                                 "name":  "ffmpeg",
+                                 "version":  null,
+                                 "detected":  false
+                             },
+                  "cuda":  {
+                               "path":  null,
+                               "name":  "cuda",
+                               "version":  null,
+                               "detected":  false
+                           },
+                  "python":  {
+                                 "path":  "D:\\kang\\work-app\\python\\python.exe",
+                                 "name":  "python",
+                                 "version":  "3.12.10",
+                                 "detected":  true
+                             },
+                  "git":  {
+                              "path":  "D:\\kang\\work-app\\git\\Git\\cmd\\git.exe",
+                              "name":  "git",
+                              "version":  "2.36.1.",
+                              "detected":  true
+                          },
+                  "maven":  {
+                                "path":  "D:\\kang\\work-app\\maven\\apache-maven-3.8.1\\bin\\mvn.cmd",
+                                "name":  "maven",
+                                "version":  "3.8.1",
+                                "detected":  true
+                            },
+                  "npm":  {
+                              "path":  "C:\\tools\\nodejs\\npm.ps1",
+                              "name":  "npm",
+                              "version":  "11.6.2",
+                              "detected":  true
+                          }
+              },
+    "_meta":  {
+                  "generatedAt":  "2026-04-29T15:02:57Z",
+                  "version":  "4.0",
+                  "generatedBy":  "detect-tools.ps1"
+              },
+    "encoding":  {
+                     "consoleCodePage":  65001,
+                     "mavenOpts":  null,
+                     "pythonIoEncoding":  null,
+                     "_source":  "auto",
+                     "needsUtf8Fix":  false,
+                     "chcpCodePage":  65001,
+                     "mavenHasUtf8":  false
+                 },
+    "os":  {
+               "arch":  "x64",
+               "psVersion":  "5.1.26100.8115",
+               "version":  "Microsoft Windows NT 10.0.26200.0",
+               "type":  "windows"
+           }
+}

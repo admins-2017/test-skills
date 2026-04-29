@@ -1,0 +1,23 @@
+# Java
+target/
+*.class
+
+# Node
+node_modules/
+dist/
+coverage/
+playwright-report/
+test-results/
+
+# Logs and local state
+logs/
+*.log
+progress.log
+.tmp-*
+
+# IDE / OS
+.idea/
+.vscode/
+*.iml
+.DS_Store
+Thumbs.db
